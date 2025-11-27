@@ -1,16 +1,16 @@
-from unittest.mock import patch
-from asgiref.sync import async_to_sync
-from model_bakery import baker
-from django.contrib.auth import get_user_model
-from tacticalrmm.test import TacticalTestCase
-from agents.models import AgentHistory
-from logs.models import AuditLog
-from agents.consumers import CommandStreamConsumer, active_streams
-from django.contrib.auth.models import AnonymousUser
 import asyncio
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from agents.models import Agent
+from asgiref.sync import async_to_sync
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
+from model_bakery import baker
+
+from agents.consumers import CommandStreamConsumer, active_streams
+from agents.models import Agent, AgentHistory
+from logs.models import AuditLog
+from tacticalrmm.test import TacticalTestCase
 
 User = get_user_model()
 

@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Sequence, Union, ca
 import msgpack
 import nats
 import validators
+from channels.layers import get_channel_layer
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
@@ -43,7 +44,6 @@ from tacticalrmm.constants import (
 )
 from tacticalrmm.helpers import has_script_actions, has_webhook, setup_nats_options
 from tacticalrmm.models import PermissionQuerySet
-from channels.layers import get_channel_layer
 
 if TYPE_CHECKING:
     from alerts.models import Alert, AlertTemplate
