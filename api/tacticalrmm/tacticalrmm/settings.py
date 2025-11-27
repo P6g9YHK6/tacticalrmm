@@ -37,7 +37,7 @@ LATEST_AGENT_VER = "2.9.1"
 
 MESH_VER = "1.1.32"
 
-NATS_SERVER_VER = "2.11.10"
+NATS_SERVER_VER = "2.12.2"
 
 # Install Nushell on the agent
 # https://github.com/nushell/nushell
