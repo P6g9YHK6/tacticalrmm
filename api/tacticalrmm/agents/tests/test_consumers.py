@@ -26,6 +26,7 @@ class TestCommandStreamConsumer(TacticalTestCase):
             site=self.site,
             agent_id="agent123",
             hostname="agent-host",
+            version="2.10.0",
         )
 
         self.consumer = CommandStreamConsumer()
@@ -175,6 +176,7 @@ class TestNatsStreamCmd:
             hostname="test-agent",
             agent_id="agent123",
             site=site,
+            version="2.10.0",
         )
         agent.save()
         return agent
