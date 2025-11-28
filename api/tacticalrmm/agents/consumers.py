@@ -6,6 +6,7 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import get_object_or_404
+from packaging import version as pyver
 
 from agents.models import Agent, AgentHistory
 from logs.models import AuditLog
@@ -113,6 +114,14 @@ class CommandStreamConsumer(AsyncJsonWebsocketConsumer):
             await self.close()
             return
 
+        if not self.user.is_authenticated:
+            await self.close(4401)
+            return
+
+        if self.user.block_dashboard_login:
+            await self.close()
+            return
+
         self.agent_id = self.scope["url_route"]["kwargs"]["agent_id"]
         has_permission = await self.has_perm(self.agent_id)
         if not has_permission:
@@ -124,6 +133,18 @@ class CommandStreamConsumer(AsyncJsonWebsocketConsumer):
                 }
             )
             await self.close(code=4003)
+            return
+
+        agent = await self.get_agent(self.agent_id)
+        if pyver.parse(agent.version) < pyver.parse("2.10.0"):
+            await self.accept()
+            await self.send_json(
+                {
+                    "error": "The streaming feature requires agent version 2.10.0 or higher.",
+                    "status": 400,
+                }
+            )
+            await self.close()
             return
 
         # Don’t create a group yet, cmd_id not known
